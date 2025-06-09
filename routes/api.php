@@ -22,3 +22,6 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 
+Route::get('/test-api', function () {
+    return response()->json(['status' => 'API routes are working!']);
+});
