@@ -12,10 +12,23 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail']);
 
 
+//email verification
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-    return response()->json(['message' => 'Email verified successfully.']);
-})->middleware(['signed'])->name('verification.verify');
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+//resend
+//u bodiju salji citavog usera - objekat
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+ 
+    return response()->json(['message'=>'Verification link sent!'], 200);
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 Route::middleware(['auth:api', 'verified'])->group(function () {

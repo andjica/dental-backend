@@ -2,21 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
         $user = User::create([
-            'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => $request->role_id,
+            'role_id' => 2,
         ]);
+
+        if(!$user)
+        {
+            return response()->json(['message' => 'Something went wrong'],500);
+        }
+
+        event(new Registered($user));
+
 
         $token = JWTAuth::fromUser($user);
 
