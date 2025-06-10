@@ -32,9 +32,10 @@ class AuthController extends Controller
         }
 
         return response()->json([
+            'sucess' => 'OK',
             'token' => $token,
             'user' => Auth::user(),
-        ]);
+        ], 200);
     }
 
     public function me()
