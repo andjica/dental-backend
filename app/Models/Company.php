@@ -15,7 +15,6 @@ class Company extends Model
         'tax_number',         
         'registration_number',
         'email',
-        'website',
         'country_id',
         'city_id',
     ];

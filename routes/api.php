@@ -15,7 +15,7 @@ Route::post('/email/resend', [AuthController::class, 'resendVerificationEmail'])
 //email verification
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
+})->middleware('auth:api')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill(); // automatski popunjava email_verified_at
@@ -28,7 +28,7 @@ Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
  
     return response()->json(['message'=>'Verification link sent!'], 200);
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+})->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
 
 Route::middleware(['auth:api', 'verified'])->group(function () {

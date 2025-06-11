@@ -48,6 +48,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         ];
     }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAdmin()   { return $this->role_id === 1; }
+    public function isCompany() { return $this->role_id === 2; }
+    public function isUser()    { return $this->role_id === 3; }
+    public function isBuyer()   { return $this->role_id === 4; }
+
     protected $appends = ['isVerify'];
 
     public function getIsVerifyAttribute()
