@@ -18,9 +18,9 @@ Route::get('/email/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect('/home');
-})->middleware(['auth', 'signed'])->name('verification.verify');
+    $request->fulfill(); // automatski popunjava email_verified_at
+    return response()->json(['message' => 'Email verified']);
+})->middleware(['signed'])->name('verification.verify');
 
 //resend
 //u bodiju salji citavog usera - objekat

@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
     ];
 
     /**
@@ -46,6 +46,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $appends = ['isVerify'];
+
+    public function getIsVerifyAttribute()
+    {
+        return !is_null($this->email_verified_at);
     }
 
     public function getJWTIdentifier()
