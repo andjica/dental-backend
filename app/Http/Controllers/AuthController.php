@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Registered;
 use App\Notifications\CustomVerifyEmail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -19,6 +20,8 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
+            'first_name' => 'required',
+            'last_name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -27,9 +30,11 @@ class AuthController extends Controller
 
        
         $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => 2,
+            'role_id' => $request->role_id,
         ]);
 
         if (!$user) {
@@ -53,12 +58,21 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
         }
 
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Invalid password'], 401);
+        }
+
+        $token = JWTAuth::attempt($request->only('email', 'password'));
+
+
         return response()->json([
-            'sucess' => 'OK',
+            'success' => 'OK',
             'token' => $token,
             'user' => Auth::user(),
         ], 200);
