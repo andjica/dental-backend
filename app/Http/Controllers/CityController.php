@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use CityInterface;
+use App\Http\Interfaces\CityInterface;
 use Illuminate\Http\Request;
 
 class CityController extends Controller

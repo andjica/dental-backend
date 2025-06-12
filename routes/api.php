@@ -60,5 +60,5 @@ Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry'])
 Route::get('/countries', [CountryController::class, 'getCountries']);
 Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPhoneCode']);
  
-Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
+// Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
 
