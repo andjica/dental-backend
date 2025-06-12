@@ -50,10 +50,14 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
+
+    Route::get('/company', [CompanyController::class, 'showCompany']);
 });
 
 Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
 
 Route::get('/countries', [CountryController::class, 'getCountries']);
-Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
 Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPhoneCode']);
+ 
+Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
+

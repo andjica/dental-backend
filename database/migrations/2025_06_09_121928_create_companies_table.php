@@ -24,7 +24,10 @@ class CreateCompaniesTable extends Migration
             $table->string('tax_number')->nullable();
             $table->string('registration_number')->nullable();
 
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
+
+            $table->boolean('is_finished_profile')->default(false);
+            
             $table->timestamps();
         });
     }

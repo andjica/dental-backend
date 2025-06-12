@@ -15,7 +15,7 @@ class CompanyController extends Controller
         $this->companyService = $companyService;
     }
 
-    public function getCompany()
+    public function showCompany()
     {
         $userId = Auth::user()->id;
         
