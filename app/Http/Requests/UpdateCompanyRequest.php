@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCompanyRequest extends FormRequest
@@ -23,7 +24,7 @@ class UpdateCompanyRequest extends FormRequest
             'logo'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'tax_number'           => 'nullable|string|max:50',
             'registration_number' => 'nullable|string|max:50',
-            'email'                => 'nullable|email|max:255|unique:companies,email,' . auth()->id() . ',user_id',
+            'email'                => 'nullable|email|max:255|unique:companies,email,' . Auth::user()->id . ',user_id',
             'is_finished_profile' => 'boolean',
         ];
     }
