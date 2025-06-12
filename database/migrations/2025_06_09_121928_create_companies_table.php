@@ -11,10 +11,16 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
+            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
+            $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');
+            $table->string('address')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->string('name')->nullable();
             $table->string('logo')->nullable();
-            $table->string('tax_number')->unique();
-            $table->string('registration_number')->unique();
+
+            $table->string('tax_number')->nullable();
+            $table->string('registration_number')->nullable();
+
             $table->string('email')->unique();
             $table->timestamps();
         });

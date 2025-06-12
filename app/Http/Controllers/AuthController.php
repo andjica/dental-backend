@@ -42,8 +42,7 @@ class AuthController extends Controller
         }
 
         // Pokreni događaj i pošalji custom verifikacioni email
-        event(new Registered($user));
-        $user->notify(new CustomVerifyEmail);
+       $user->sendEmailVerificationNotification();
 
         // Generiši JWT token
         $token = JWTAuth::fromUser($user);
