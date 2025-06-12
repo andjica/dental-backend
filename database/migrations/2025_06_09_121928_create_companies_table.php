@@ -13,8 +13,11 @@ class CreateCompaniesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
             $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');
+
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
+            $table->string('phone_code')->nullable();
+
             $table->string('name')->nullable();
             $table->string('logo')->nullable();
 

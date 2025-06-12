@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -50,6 +52,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 
-Route::get('/test-api', function () {
-    return response()->json(['status' => 'API routes are working!']);
-});
+Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
+
+Route::get('/countries', [CountryController::class, 'getCountries']);
+Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
+Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPhoneCode']);

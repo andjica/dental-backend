@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use App\Notifications\CustomVerifyEmail;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -39,6 +40,15 @@ class AuthController extends Controller
 
         if (!$user) {
             return response()->json(['message' => 'Something went wrong'], 500);
+        }
+
+        if($user->role_id == 2)
+        {
+            $company = new Company();
+            $company->user_id = $user->id;
+
+            $company->save();
+
         }
 
         // Pokreni događaj i pošalji custom verifikacioni email
