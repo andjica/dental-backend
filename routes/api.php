@@ -52,6 +52,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
     Route::get('/company', [CompanyController::class, 'showCompany']);
+    Route::post('/company/update', [CompanyController::class, 'update']);
 });
 
 Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
