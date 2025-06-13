@@ -21,7 +21,7 @@ class UpdateCompanyRequest extends FormRequest
             'postal_code'          => 'nullable|string|max:20',
             'phone_code'           => 'nullable|string|max:10',
             'name'                 => 'nullable|string|max:255',
-            'logo'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'logo'                 => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4048',
             'tax_number'           => 'nullable|string|max:50',
             'registration_number' => 'nullable|string|max:50',
             'email'                => 'nullable|email|max:255|unique:companies,email,' . Auth::user()->id . ',user_id',
