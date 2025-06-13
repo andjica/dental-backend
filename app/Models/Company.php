@@ -10,6 +10,9 @@ class Company extends Model
 
     protected $fillable = [
         'user_id',
+        'address',
+        'postal_code',
+        'phone_code',
         'logo',
         'name',
         'tax_number',         
@@ -17,6 +20,7 @@ class Company extends Model
         'email',
         'country_id',
         'city_id',
+        'is_finished_profile'
     ];
 
     

@@ -6,9 +6,9 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CityController;
-use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CountryController;
 
 
 
