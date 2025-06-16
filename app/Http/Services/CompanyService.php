@@ -3,6 +3,8 @@
 namespace App\Http\Services;
 
 use App\Models\Company;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Interfaces\CompanyInterface;
 
 class CompanyService implements CompanyInterface
@@ -20,11 +22,22 @@ class CompanyService implements CompanyInterface
             return null;
         }
 
-        // Ako je logo fajl (slika), sačuvaj je
-        if (isset($data['logo']) && $data['logo'] instanceof \Illuminate\Http\UploadedFile) {
-            $filename = uniqid('logo_') . '.' . $data['logo']->getClientOriginalExtension();
-            $path = $data['logo']->storeAs('public/company/logos', $filename);
-            $data['logo'] = 'storage/company/logos/' . $filename;
+        if (isset($data['logo']) && $data['logo'] instanceof UploadedFile) {
+            $folder = 'company/logos';
+            $filename = 'andjica.logo_' . uniqid() . '.' . $data['logo']->getClientOriginalExtension();
+
+            // Provera da li folder postoji
+            if (!Storage::disk('public')->exists($folder)) {
+                Storage::disk('public')->makeDirectory($folder);
+            }
+
+            // Snimanje
+            $data['logo']->storeAs($folder, $filename, 'public');
+
+            // Čuvanje putanje za frontend
+            $data['logo'] = 'storage/' . $folder . '/' . $filename;
+        } else {
+            unset($data['logo']); // ne menjaj ako nije uploadovana nova slika
         }
 
 
