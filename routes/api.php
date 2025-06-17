@@ -54,7 +54,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('/company/update', [CompanyController::class, 'update']);
 
     Route::get('/user-info', [UserInfoController::class, 'showUserInfo']);
-    Route::put('/user-info', [UserInfoController::class, 'update']);
+    Route::post('/user-info', [UserInfoController::class, 'update']);
 
 });
 
