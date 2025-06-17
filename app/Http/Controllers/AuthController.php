@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Company;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +51,12 @@ class AuthController extends Controller
             $company->save();
 
         }
+        if ($user->role_id == 3) {
+            $userInfo = new UserInfo();
+            $userInfo->user_id = $user->id;
+            $userInfo->save(); // ostala polja ostaju null
+        }
+
 
         // Pokreni događaj i pošalji custom verifikacioni email
        $user->sendEmailVerificationNotification();

@@ -15,12 +15,22 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('country_id')->nullable()->constrained('countries')->onDelete('set null');
-            $table->foreignId('city_id')->nullable()->constrained('cities')->onDelete('set null');
+            $table->foreignId('country_id')
+                ->nullable()
+                ->constrained('countries')
+                ->onDelete('set null');
+
+            $table->foreignId('city_id')
+                ->nullable()
+                ->constrained('cities')
+                ->onDelete('set null');
             
-            $table->string('address');
+            $table->string('address')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('phone')->nullable();
+            $table->boolean('is_finished_profile')->default(false);
+
+            $table->timestamps();
         });
     }
 

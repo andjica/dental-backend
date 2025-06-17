@@ -9,8 +9,7 @@ use App\Http\Controllers\CityController;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
-
-
+use App\Http\Controllers\UserInfoController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name("login");
@@ -53,6 +52,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     Route::get('/company', [CompanyController::class, 'showCompany']);
     Route::post('/company/update', [CompanyController::class, 'update']);
+
+    Route::get('/user-info', [UserInfoController::class, 'showUserInfo']);
+    Route::put('/user-info', [UserInfoController::class, 'update']);
+
 });
 
 Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
