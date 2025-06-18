@@ -9,6 +9,8 @@ use App\Http\Controllers\CityController;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserInfoController;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -50,11 +52,16 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
+    Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
+
     Route::get('/company', [CompanyController::class, 'showCompany']);
     Route::post('/company/update', [CompanyController::class, 'update']);
 
     Route::get('/user-info', [UserInfoController::class, 'showUserInfo']);
     Route::post('/user-info', [UserInfoController::class, 'update']);
+
+    Route::post('/products', [ProductController::class, 'store']);
 
 });
 
