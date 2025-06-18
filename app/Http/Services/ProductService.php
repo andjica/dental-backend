@@ -26,6 +26,17 @@ class ProductService implements ProductInterface
         // Kreiraj proizvod
         $product = Product::create($data);
 
+        if (isset($data['main_image'])) {
+            $mainImage = $data['main_image'];
+            $pathMain = $mainImage->store('products', 'public');
+
+            ProductImage::create([
+                'product_id' => $product->id,
+                'image_url' => $pathMain,
+                'is_primary' => true,
+            ]);
+        }
+
         // Snimi slike ako postoje
         foreach ($images as $image) {
             $path = $image->store('products', 'public');
@@ -38,5 +49,24 @@ class ProductService implements ProductInterface
 
         return $product->load('images'); // Vrati i slike u odgovoru
     
+    }
+
+    public function getOne(int $id)
+    {
+        $product = Product::find($id);
+
+        if(!$product)
+        {
+            return null;
+        }
+
+        return $product;
+    }
+
+    public function getByUserId(int $userId)
+    {
+        $products = Product::where('user_is', $userId)->orderBy('created_at', 'desc')->get();
+
+        return $products;
     }
 }

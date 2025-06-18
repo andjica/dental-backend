@@ -47,9 +47,41 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        //
+        $product = $this->productService->getOne($id);
+
+        if(is_null($product))
+        {
+             return response()->json([
+            'message' => 'Product doesnt exist',
+        ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product retrieved successfully.',
+            'data' => $product
+        ], 200);
+    }
+
+    public function getByUserId($userId)
+    {
+        $products = $this->productService->getByUserId($userId);
+
+        if(is_null($products))
+        {
+            return response()->json([
+            'message' => 'Products doesnt exist',
+        ], 404);
+        }
+
+          return response()->json([
+            'success' => true,
+            'message' => 'Products retrieved successfully.',
+            'data' => $products
+        ], 200);
+ 
     }
 
     /**

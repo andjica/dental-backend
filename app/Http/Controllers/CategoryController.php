@@ -36,7 +36,7 @@ class CategoryController extends Controller
         {
             return response()->json([
                 'success' => false,
-                'message' => 'Kategorija nije pronađena.',
+                'message' => 'Category doesnt exists',
                 'data' => null,
             ], 404);
         }
