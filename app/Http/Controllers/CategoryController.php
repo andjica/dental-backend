@@ -32,6 +32,15 @@ class CategoryController extends Controller
     {
         $subCategories = $this->subCategoryService->getByCategoryId($categoryId);
 
+        if (is_null($subCategories)) 
+        {
+            return response()->json([
+                'success' => false,
+                'message' => 'Kategorija nije pronađena.',
+                'data' => null,
+            ], 404);
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Subcategories exist',

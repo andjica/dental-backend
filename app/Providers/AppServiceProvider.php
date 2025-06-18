@@ -14,7 +14,9 @@ use App\Http\Interfaces\CompanyInterface;
 use App\Http\Interfaces\CountryInterface;
 use App\Http\Interfaces\ProductInterface;
 use App\Http\Interfaces\CategoryInterface;
+use App\Http\Interfaces\SubCategoryInterface;
 use App\Http\Interfaces\UserInfoInterface;
+use App\Http\Services\SubCategoryService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,5 +39,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserInfoInterface::class, UserInfoService::class);
         $this->app->bind(ProductInterface::class, ProductService::class);
         $this->app->bind(CategoryInterface::class, CategoryService::class);
+        $this->app->bind(SubCategoryInterface::class, SubCategoryService::class);
     }
 }
