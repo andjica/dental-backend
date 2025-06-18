@@ -58,6 +58,8 @@ class ProductController extends Controller
         ], 404);
         }
 
+        $product->load(['category', 'subCategory']);
+
         return response()->json([
             'success' => true,
             'message' => 'Product retrieved successfully.',
@@ -75,6 +77,8 @@ class ProductController extends Controller
             'message' => 'Products doesnt exist',
         ], 404);
         }
+
+        $products->load(['category', 'subCategory']);
 
           return response()->json([
             'success' => true,
