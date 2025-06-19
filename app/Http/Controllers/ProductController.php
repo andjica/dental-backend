@@ -36,6 +36,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+
         $product = $this->productService->create($request->validated());
 
         return response()->json([

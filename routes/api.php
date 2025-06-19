@@ -62,7 +62,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('/user-info', [UserInfoController::class, 'update']);
 
     Route::post('/products', [ProductController::class, 'store']);
+
     Route::get('/products/{userId}', [ProductController::class, 'getByUserId']);
+    
     Route::get('/product/{id}', [ProductController::class, 'show']);
 
 });

@@ -18,6 +18,15 @@ class ProductService implements ProductInterface
         if (empty($data['sku'])) {
             $data['sku'] = strtoupper(Str::random(10));
         }
+        $data['base_price'] = number_format((float) $data['base_price'], 2, '.', '');
+
+
+        if($data['in_stock'] == TRUE)
+        {
+            $data['in_stock'] = 1;
+        }
+
+         $data['in_stock'] = 0;
 
         // Odvojimo slike ako postoje
         $images = $data['images'] ?? [];
@@ -65,7 +74,7 @@ class ProductService implements ProductInterface
 
     public function getByUserId(int $userId)
     {
-        $products = Product::where('user_is', $userId)->orderBy('created_at', 'desc')->get();
+        $products = Product::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
 
         return $products;
     }
