@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('password');
 
             // Location
-            $table->unsignedInteger('country_id')->nullable();
-            $table->unsignedInteger('city_id')->nullable();
+            // $table->unsignedInteger('country_id')->nullable();
+            // $table->unsignedInteger('city_id')->nullable();
 
             // Role
             $table->unsignedBigInteger('role_id');

@@ -59,7 +59,7 @@ class ProductController extends Controller
         ], 404);
         }
 
-        $product->load(['category', 'subCategory']);
+        $product->load(['category', 'subCategory', 'images']);
 
         return response()->json([
             'success' => true,
