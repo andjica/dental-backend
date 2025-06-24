@@ -68,6 +68,10 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     
     Route::get('/product/{id}', [ProductController::class, 'show']);
 
+    Route::get('/admin/users', [AdminController::class, 'getUsersInfo']);
+    Route::get('/admin/companies', [AdminController::class, 'getCompanies']);
+    Route::get('/admin/inactive/companies', [AdminController::class, 'getInactiveCompanies']);
+
 });
 
 Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
@@ -77,6 +81,3 @@ Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPho
  
 // Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
 
-Route::get('/admin/users', [AdminController::class, 'getUsersInfo']);
-Route::get('/admin/companies', [AdminController::class, 'getCompanies']);
-Route::get('/admin/inactive/companies', [AdminController::class, 'getInactiveCompanies']);
