@@ -37,7 +37,8 @@ class UserInfoService implements UserInfoInterface
         $userInfo = UserInfo::with([
             'user' => function ($query) {
                 $query->withCount(['activeProducts']);
-            }
+            },
+            'country', 'city'
         ])
         ->where('is_finished_profile', 1)
         ->orderBy('created_at', 'desc')

@@ -39,7 +39,6 @@ class AdminController extends Controller
     {
         Auth::user()->id;
         $companies = $this->companyServices->getAllActiveCompanies();
-
          return response()->json([
             'success' => 'Active Companies retrieved',
             'data' => $companies
