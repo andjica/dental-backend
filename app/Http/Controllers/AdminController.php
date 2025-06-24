@@ -9,13 +9,13 @@ use App\Http\Interfaces\UserInfoInterface;
 
 class AdminController extends Controller
 {
-    protected $userInfoServices;
-    protected $companyServices;
+    protected $userInfoService;
+    protected $companyService;
 
-    public function __construct(UserInfoInterface $userInfoServices, CompanyInterface $companyServices)
+    public function __construct(UserInfoInterface $userInfoService, CompanyInterface $companyService)
     {
-        $this->userInfoServices = $userInfoServices;
-        $this->companyServices = $companyServices;
+        $this->userInfoService = $userInfoService;
+        $this->companyService = $companyService;
     }
 
 
@@ -27,7 +27,7 @@ class AdminController extends Controller
     public function getUsersInfo()
     {
         Auth::user()->id;
-        $users = $this->userInfoServices->getAllUserInfo();
+        $users = $this->userInfoService->getAllUserInfo();
 
         return response()->json([
             'success' => 'Users info retrieved',
@@ -38,7 +38,7 @@ class AdminController extends Controller
     public function getCompanies()
     {
         Auth::user()->id;
-        $companies = $this->companyServices->getAllActiveCompanies();
+        $companies = $this->companyService->getAllActiveCompanies();
 
          return response()->json([
             'success' => 'Active Companies retrieved',
@@ -49,11 +49,47 @@ class AdminController extends Controller
     public function getInactiveCompanies()
     {
          Auth::user()->id;
-        $companies = $this->companyServices->getAllInactiveCompanies();
+        $companies = $this->companyService->getAllInactiveCompanies();
 
          return response()->json([
             'success' => 'Inactive Companies retrieved',
             'data' => $companies
         ], 200);
+    }
+
+    public function activateCompany($companyId)
+    {
+        
+        $company = $this->companyService->activateCompany((int)$companyId);
+
+        if (!$company) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Company not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Company activated successfully.',
+            'data' => $company,
+        ]);
+    }
+
+    public function deleteCompany($companyId)
+    {
+        $deleted = $this->companyService->deleteCompany((int)$companyId);
+
+        if (!$deleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Company not found or deletion failed.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Company and associated user deleted successfully.'
+        ]);
     }
 }

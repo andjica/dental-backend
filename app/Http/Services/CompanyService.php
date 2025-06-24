@@ -88,4 +88,46 @@ class CompanyService implements CompanyInterface
 
         return $companies();
     }
+
+    public function activateCompany(int $companyId)
+    {
+        $company = Company::find($companyId);
+
+        if(!$company)
+        {
+            return null;
+        }
+
+        $company->active = 1;
+        $company->save();
+
+        return $company;
+    }
+
+    public function deleteCompany(int $companyId): bool
+    {
+        $company = Company::find($companyId);
+
+        if (!$company) {
+            return false;
+        }
+
+       
+        if ($company->logo) {
+           
+            $path = str_replace('storage/', '', $company->logo);
+            Storage::disk('public')->delete($path);
+        }
+
+     
+        $user = $company->user;
+        if ($user) {
+            $user->delete();
+        }
+
+        
+        $company->delete();
+
+        return true;
+    }
 }
