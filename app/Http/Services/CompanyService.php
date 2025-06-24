@@ -74,12 +74,13 @@ class CompanyService implements CompanyInterface
         $companies = Company::with([
             'user' => function ($query) {
                 $query->withCount(['activeProducts']);
-            }
+            },
+            'city', 'country'
         ])
         ->where('active', 1)       
         ->orderBy('created_at', 'desc')->get();
 
-        return $companies();
+        return $companies;
     }
 
     public function getAllInactiveCompanies()
