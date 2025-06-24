@@ -67,9 +67,12 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/products/{userId}', [ProductController::class, 'getByUserId']);
     
     Route::get('/product/{id}', [ProductController::class, 'show']);
+    Route::post('/product/{id}', [ProductController::class, 'update']);
 
     Route::get('/admin/users', [AdminController::class, 'getUsersInfo']);
     Route::get('/admin/companies', [AdminController::class, 'getCompanies']);
+
+
     Route::get('/admin/inactive/companies', [AdminController::class, 'getInactiveCompanies']);
 
     Route::get('/admin/activate/company/{companyId}', [AdminController::class, 'activateCompany']);
