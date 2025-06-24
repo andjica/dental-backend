@@ -6,4 +6,6 @@ interface CompanyInterface
 {
     public function getCompanyByUserId($userId);
     public function updateCompany(array $data, int $userId);
+    public function getAllActiveCompanies();
+    public function getAllInactiveCompanies();
 }

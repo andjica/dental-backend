@@ -68,4 +68,18 @@ class CompanyService implements CompanyInterface
 
         return $company;
     }
+
+    public function getAllActiveCompanies()
+    {
+        $companies = Company::where('active', 1)->orderBy('created_at', 'desc')->get();
+
+        return $companies();
+    }
+
+    public function getAllInactiveCompanies()
+    {
+        $companies = Company::where('active', 0)->orderBy('created_at', 'desc')->get();
+
+        return $companies();
+    }
 }

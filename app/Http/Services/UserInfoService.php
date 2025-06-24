@@ -31,4 +31,18 @@ class UserInfoService implements UserInfoInterface
 
         return $userInfo;
     }
+
+    public function getAllUserInfo()
+    {
+        $userInfo = UserInfo::with([
+            'user' => function ($query) {
+                $query->withCount(['activeProducts']);
+            }
+        ])
+        ->where('is_finished_profile', 1)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return $userInfo;
+    }
 }

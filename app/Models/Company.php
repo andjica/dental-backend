@@ -20,7 +20,8 @@ class Company extends Model
         'email',
         'country_id',
         'city_id',
-        'is_finished_profile'
+        'is_finished_profile',
+        'active'
     ];
 
     

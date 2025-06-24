@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
@@ -76,3 +77,6 @@ Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPho
  
 // Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
 
+Route::get('/admin/users', [AdminController::class, 'getUsersInfo']);
+Route::get('/admin/companies', [AdminController::class, 'getCompanies']);
+Route::get('/admin/inactive/companies', [AdminController::class, 'getInactiveCompanies']);

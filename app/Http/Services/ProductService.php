@@ -20,13 +20,17 @@ class ProductService implements ProductInterface
         }
         $data['base_price'] = number_format((float) $data['base_price'], 2, '.', '');
 
-
-        if($data['in_stock'] == TRUE)
+        
+        if($data['in_stock'] == 1)
         {
             $data['in_stock'] = 1;
         }
+        else
+        {
+            $data['in_stock'] = 0;
+        }
 
-         $data['in_stock'] = 0;
+        
 
         // Odvojimo slike ako postoje
         $images = $data['images'] ?? [];
@@ -34,7 +38,7 @@ class ProductService implements ProductInterface
 
         // Kreiraj proizvod
         $product = Product::create($data);
-
+        return $product;
         if (isset($data['main_image'])) {
             $mainImage = $data['main_image'];
             $pathMain = $mainImage->store('products', 'public');

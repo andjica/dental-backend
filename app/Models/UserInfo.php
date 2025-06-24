@@ -15,4 +15,11 @@ class UserInfo extends Model
         'phone',
         'is_finished_profile',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+   
 }

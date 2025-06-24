@@ -27,7 +27,7 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique()->nullable();
 
             $table->boolean('is_finished_profile')->default(false);
-            
+            $table->boolean('active')->default(false);
             $table->timestamps();
         });
     }
