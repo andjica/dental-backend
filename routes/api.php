@@ -75,8 +75,8 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     Route::get('/admin/inactive/companies', [AdminController::class, 'getInactiveCompanies']);
 
-    Route::get('/admin/activate/company/{companyId}', [AdminController::class, 'activateCompany']);
-    Route::get('/admin/delete/{companyId}', [AdminController::class, 'deleteCompany']);
+    Route::post('/admin/activate/company/{companyId}', [AdminController::class, 'activateCompany']);
+    Route::post('/admin/delete/{companyId}', [AdminController::class, 'deleteCompany']);
 });
 
 Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
