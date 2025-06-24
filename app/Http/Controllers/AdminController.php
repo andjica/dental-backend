@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Interfaces\CompanyInterface;
 use App\Http\Interfaces\UserInfoInterface;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -25,6 +26,7 @@ class AdminController extends Controller
 
     public function getUsersInfo()
     {
+        Auth::user()->id;
         $users = $this->userInfoServices->getAllUserInfo();
 
         return response()->json([
@@ -35,6 +37,7 @@ class AdminController extends Controller
 
     public function getCompanies()
     {
+        Auth::user()->id;
         $companies = $this->companyServices->getAllActiveCompanies();
 
          return response()->json([
@@ -45,6 +48,7 @@ class AdminController extends Controller
 
     public function getInactiveCompanies()
     {
+         Auth::user()->id;
         $companies = $this->companyServices->getAllInactiveCompanies();
 
          return response()->json([
