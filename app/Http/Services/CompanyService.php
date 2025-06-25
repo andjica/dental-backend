@@ -87,7 +87,7 @@ class CompanyService implements CompanyInterface
     {
         $companies = Company::where('active', 0)->orderBy('created_at', 'desc')->get();
 
-        return $companies();
+        return $companies;
     }
 
     public function activateCompany(int $companyId)

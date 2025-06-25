@@ -101,9 +101,9 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(array $data, int $productId)
+    public function update(Request $request, int $productId)
     {
-        $updatedProduct = $this->productService->update($data, $productId);
+        $updatedProduct = $this->productService->update($request, $productId);
 
         if (!$updatedProduct) {
             return response()->json(['message' => 'Product not found'], 404);
