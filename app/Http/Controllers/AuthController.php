@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\UserInfo;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role_id' => $request->role_id,
+            'email_verification_token' => Str::random(60),
         ]);
 
         if (!$user) {
@@ -71,31 +73,65 @@ class AuthController extends Controller
         ]);
     }
     public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+{
+    $credentials = $request->only('email', 'password');
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
-
-        if (!Hash::check($request->password, $user->password)) {
-            return response()->json(['error' => 'Invalid password'], 401);
-        }
-
-        $token = JWTAuth::attempt($request->only('email', 'password'));
-
-
-        return response()->json([
-            'success' => 'OK',
-            'token' => $token,
-            'user' => Auth::user(),
-        ], 200);
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
     }
+
+    if (!Hash::check($request->password, $user->password)) {
+        return response()->json(['error' => 'Invalid password'], 401);
+    }
+
+    $token = JWTAuth::attempt($credentials);
+
+    if (!$user->email_verified_at) {
+        // Ako nema token ili je prazan, generiši novi
+        if (empty($user->email_verification_token)) {
+            $user->email_verification_token = Str::random(60);
+            $user->save();
+        }
+    }
+
+    return response()->json([
+        'success' => 'OK',
+        'token' => $token,
+        'user' => $user,
+        'verification_hash' => $user->email_verification_token ?? null,
+    ], 200);
+}
 
     public function me()
     {
         return response()->json(Auth::user());
     }
+
+
+    public function verifyEmail($id, $hash)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        if ($user->email_verified_at) {
+            return response()->json(['message' => 'Email already verified.'], 200);
+        }
+
+        if ($user->email_verification_token !== $hash) {
+            return response()->json(['error' => 'Invalid verification token.'], 400);
+        }
+
+        $user->email_verified_at = now();
+        $user->email_verification_token = null;
+        $user->save();
+
+        return response()->json(['message' => 'Email successfully verified!'], 200);
+    }
+
+
 }
