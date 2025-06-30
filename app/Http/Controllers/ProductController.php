@@ -20,7 +20,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->productService->getAll();
+
+
+        $products->load(['category', 'subCategory', 'primaryImage']);
+        return dd($products);
+          return response()->json([
+            'success' => true,
+            'message' => 'Products retrieved successfully.',
+            'data' => $products
+        ], 200);
     }
 
     /**
@@ -60,7 +69,7 @@ class ProductController extends Controller
         ], 404);
         }
 
-        $product->load(['category', 'subCategory', 'images']);
+        $product->load(['category', 'subCategory', 'images', 'primaryImage']);
 
         return response()->json([
             'success' => true,

@@ -188,4 +188,11 @@ class ProductService implements ProductInterface
     ]);
 }
 
+    public function getAll()
+    {
+        $products = Product::orderBy('created_at', 'desc')->get();
+
+        return $products;
+    }
+
 }

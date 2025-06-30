@@ -63,6 +63,9 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::post('/user-info', [UserInfoController::class, 'update']);
 
     Route::post('/products', [ProductController::class, 'store']);
+    
+    //za sve prozivode
+    Route::get('/products', [ProductController::class, 'index']);
 
     Route::get('/products/{userId}', [ProductController::class, 'getByUserId']);
     
