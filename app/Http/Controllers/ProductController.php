@@ -24,7 +24,6 @@ class ProductController extends Controller
 
 
         $products->load(['category', 'subCategory', 'primaryImage']);
-        return dd($products);
           return response()->json([
             'success' => true,
             'message' => 'Products retrieved successfully.',
@@ -89,7 +88,7 @@ class ProductController extends Controller
         ], 404);
         }
 
-        $products->load(['category', 'subCategory']);
+        $products->load(['category', 'subCategory', 'images', 'primaryImage']);
 
           return response()->json([
             'success' => true,
