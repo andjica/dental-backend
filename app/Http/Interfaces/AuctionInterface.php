@@ -10,4 +10,6 @@ interface AuctionInterface
     public function create(array $data): Auction;
     public function view(int $id): ?Auction;
     public function delete(int $id): bool;
+    public function update(array $data, int $auctionId): ?Auction;
+
 }

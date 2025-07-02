@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuctionStoreRequest;
 use Illuminate\Http\Request;
 use App\Interfaces\AuctionInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AuctionStoreRequest;
+use App\Http\Requests\AuctionUpdateRequest;
 
 class AuctionController extends Controller
 {
@@ -83,10 +84,26 @@ class AuctionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AuctionUpdateRequest $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        $auction = $this->auctionService->update($validated, $id);
+
+        if (!$auction) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Auction not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Auction updated successfully.',
+            'data' => $auction
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.

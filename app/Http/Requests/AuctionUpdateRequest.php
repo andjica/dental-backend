@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuctionStoreRequest extends FormRequest
+class AuctionUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,7 +19,7 @@ class AuctionStoreRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+   public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
@@ -29,6 +29,8 @@ class AuctionStoreRequest extends FormRequest
             'image_main' => 'nullable|image|max:2048',
             'images' => 'nullable|array',
             'images.*' => 'image|max:2048',
+            'existing_images' => 'nullable|array',
+            'existing_images.*' => 'string',
         ];
     }
 }
