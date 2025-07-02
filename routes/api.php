@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuctionController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
@@ -13,6 +14,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserInfoController;
+use PharIo\Manifest\AuthorCollection;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login'])->name("login");
@@ -62,15 +64,22 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/user-info', [UserInfoController::class, 'showUserInfo']);
     Route::post('/user-info', [UserInfoController::class, 'update']);
 
+    //products
     Route::post('/products', [ProductController::class, 'store']);
-    
-    //za sve prozivode
     Route::get('/products', [ProductController::class, 'index']);
-
-    Route::get('/products/{userId}', [ProductController::class, 'getByUserId']);
-    
+    Route::get('/products/{userId}', [ProductController::class, 'getByUserId']);   
     Route::get('/product/{id}', [ProductController::class, 'show']);
     Route::post('/product/{id}', [ProductController::class, 'update']);
+
+    //auctions
+    Route::post('/auction', [AuctionController::class, 'store']);
+    //all auctions for admin
+    Route::get('/auctions', [AuctionController::class, 'index']);
+    //all auctions by user id
+    Route::get('/auctions/{userId}', [AuctionController::class, 'getByUserId']);
+    Route::get('/auction/{id}', [AuctionController::class, 'show']);
+    Route::post('/auction/update/{id}', [AuctionController::class, 'update']);
+    Route::delete('/auctions/{id}', [AuctionController::class, 'destroy']);
 
     Route::get('/admin/users', [AdminController::class, 'getUsersInfo']);
     Route::get('/admin/companies', [AdminController::class, 'getCompanies']);

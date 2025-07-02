@@ -20,10 +20,12 @@ class ProductController extends Controller
      */
     public function index()
     {
+        
         $products = $this->productService->getAll();
 
 
         $products->load(['category', 'subCategory', 'primaryImage']);
+        
           return response()->json([
             'success' => true,
             'message' => 'Products retrieved successfully.',

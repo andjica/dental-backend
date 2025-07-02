@@ -96,4 +96,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return $this->hasMany(Product::class)->where('in_stock', true);
     }
+
+
+    public function auctions()
+    {
+        return $this->hasMany(Auction::class);
+    }
 }

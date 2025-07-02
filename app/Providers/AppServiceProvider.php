@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\AuctionService;
 use App\Http\Services\CityService;
+use App\Interfaces\AuctionInterface;
 use App\Http\Services\CompanyService;
 use App\Http\Services\CountryService;
 use App\Http\Services\ProductService;
@@ -13,10 +15,10 @@ use Illuminate\Support\ServiceProvider;
 use App\Http\Interfaces\CompanyInterface;
 use App\Http\Interfaces\CountryInterface;
 use App\Http\Interfaces\ProductInterface;
-use App\Http\Interfaces\CategoryInterface;
-use App\Http\Interfaces\SubCategoryInterface;
-use App\Http\Interfaces\UserInfoInterface;
 use App\Http\Services\SubCategoryService;
+use App\Http\Interfaces\CategoryInterface;
+use App\Http\Interfaces\UserInfoInterface;
+use App\Http\Interfaces\SubCategoryInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,5 +42,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductInterface::class, ProductService::class);
         $this->app->bind(CategoryInterface::class, CategoryService::class);
         $this->app->bind(SubCategoryInterface::class, SubCategoryService::class);
+        $this->app->bind(AuctionInterface::class, AuctionService::class);
+
     }
 }
