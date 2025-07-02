@@ -195,4 +195,25 @@ class ProductService implements ProductInterface
         return $products;
     }
 
+    public function delete(int $productId): bool
+    {
+        $product = Product::with('images')->find($productId);
+
+        if (!$product) {
+            return false;
+        }
+
+        // Obrisi slike sa diska i iz baze
+        foreach ($product->images as $image) {
+            if (Storage::disk('public')->exists($image->image_url)) {
+                Storage::disk('public')->delete($image->image_url);
+            }
+            $image->delete();
+        }
+
+        // Obrisi proizvod
+        return $product->delete();
+    }
+
+
 }

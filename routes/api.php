@@ -70,6 +70,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
     Route::get('/products/{userId}', [ProductController::class, 'getByUserId']);   
     Route::get('/product/{id}', [ProductController::class, 'show']);
     Route::post('/product/{id}', [ProductController::class, 'update']);
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
     //auctions
     Route::post('/auction', [AuctionController::class, 'store']);

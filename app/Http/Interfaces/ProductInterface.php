@@ -10,4 +10,6 @@ interface ProductInterface
     public function getByUserId(int $userId);
     public function update(Request $request, int $productId);
     public function getAll();
+    public function delete(int $productId): bool;
+
 }
