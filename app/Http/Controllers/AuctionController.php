@@ -22,9 +22,30 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        //
+        $auctions = $this->auctionService->getAll();
+        $auctions->load(['user']);
+
+        return response()->json([
+            'success' => true,
+            'data' => $auctions
+        ], 200); 
     }
 
+    public function getByUserId($userId)
+    {
+         $auctions = $this->auctionService->getAllByUserId($userId);
+
+        if (is_null($auctions)) 
+        {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+         return response()->json([
+            'success' => true,
+            'data' => $auctions
+        ], 200); 
+
+    }
     /**
      * Show the form for creating a new resource.
      */

@@ -7,6 +7,8 @@ use App\Models\Auction;
 
 interface AuctionInterface
 {
+    public function getAll(): Collection;
+    public function getAllByUserId(int $userId): ?Collection;
     public function create(array $data): Auction;
     public function view(int $id): ?Auction;
     public function delete(int $id): bool;

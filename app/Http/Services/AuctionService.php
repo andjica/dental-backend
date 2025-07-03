@@ -2,13 +2,36 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use App\Models\Auction;
 use App\Models\AuctionImage;
 use App\Interfaces\AuctionInterface;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Collection;
 
 class AuctionService implements AuctionInterface
 {
+    public function getAll(): Collection
+    {
+
+        return Auction::orderBy('created_at', 'desc')->get();
+    }
+
+    public function getAllByUserId(int $userId): ?Collection
+    {
+         $user = User::find($userId);
+
+        if(!$user) 
+        {
+            return  null;
+        }
+
+        $auctions = Auction::where('user_id', $userId)
+        ->orderBy('created_at', 'desc')->get();
+        
+        return $auctions;
+    }
+
     public function create(array $data): Auction
     {
 
