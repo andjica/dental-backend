@@ -74,7 +74,7 @@ Route::middleware(['auth:api', 'verified'])->group(function () {
 
     //auctions
     Route::post('/auction', [AuctionController::class, 'store']);
-    //all auctions for admin
+    //all auctions 
     Route::get('/auctions', [AuctionController::class, 'index']);
     //all auctions by user id
     Route::get('/auctions/{userId}', [AuctionController::class, 'getByUserId']);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Http\Interfaces;
 
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Auction;

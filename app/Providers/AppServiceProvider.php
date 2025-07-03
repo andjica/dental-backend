@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Services\AuctionService;
 use App\Http\Services\CityService;
-use App\Interfaces\AuctionInterface;
+use App\Http\Services\AuctionService;
 use App\Http\Services\CompanyService;
 use App\Http\Services\CountryService;
 use App\Http\Services\ProductService;
@@ -12,6 +11,7 @@ use App\Http\Interfaces\CityInterface;
 use App\Http\Services\CategoryService;
 use App\Http\Services\UserInfoService;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Interfaces\AuctionInterface;
 use App\Http\Interfaces\CompanyInterface;
 use App\Http\Interfaces\CountryInterface;
 use App\Http\Interfaces\ProductInterface;

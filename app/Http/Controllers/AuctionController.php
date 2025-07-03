@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Interfaces\AuctionInterface;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Interfaces\AuctionInterface;
 use App\Http\Requests\AuctionStoreRequest;
 use App\Http\Requests\AuctionUpdateRequest;
 
@@ -23,28 +23,27 @@ class AuctionController extends Controller
     public function index()
     {
         $auctions = $this->auctionService->getAll();
-        $auctions->load(['user']);
+        $auctions->load(['user', 'images']);
 
         return response()->json([
             'success' => true,
             'data' => $auctions
-        ], 200); 
+        ], 200);
     }
 
     public function getByUserId($userId)
     {
-         $auctions = $this->auctionService->getAllByUserId($userId);
+        $auctions = $this->auctionService->getAllByUserId($userId);
+        $auctions->load(['user', 'images']);
 
-        if (is_null($auctions)) 
-        {
+        if (is_null($auctions)) {
             return response()->json(['message' => 'User not found.'], 404);
         }
 
-         return response()->json([
+        return response()->json([
             'success' => true,
             'data' => $auctions
-        ], 200); 
-
+        ], 200);
     }
     /**
      * Show the form for creating a new resource.
@@ -57,7 +56,7 @@ class AuctionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(AuctionStoreRequest $request)
+    public function store(AuctionStoreRequest $request)
     {
         $validated = $request->validated();
 
@@ -69,7 +68,7 @@ class AuctionController extends Controller
             'success' => true,
             'message' => 'Auction created successfully.',
             'data' => $auction
-        ], 201); 
+        ], 201);
     }
 
     /**
@@ -78,7 +77,7 @@ class AuctionController extends Controller
     public function show($id)
     {
         $auction = $this->auctionService->view($id);
-
+        $auction->load(['user', 'images']);
         if (!$auction) {
             return response()->json([
                 'success' => false,
@@ -145,5 +144,4 @@ class AuctionController extends Controller
             'message' => 'Auction deleted successfully.',
         ], 200);
     }
-
 }

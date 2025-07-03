@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Services;
 
 use App\Models\User;
 use App\Models\Auction;
 use App\Models\AuctionImage;
-use App\Interfaces\AuctionInterface;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Interfaces\AuctionInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class AuctionService implements AuctionInterface
