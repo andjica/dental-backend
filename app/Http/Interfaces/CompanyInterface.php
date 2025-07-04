@@ -10,5 +10,5 @@ interface CompanyInterface
     public function getAllInactiveCompanies();
     public function activateCompany(int $companyId);
     public function deleteCompany(int $companyId): bool;
-
+    public function countRegistered(): int;
 }

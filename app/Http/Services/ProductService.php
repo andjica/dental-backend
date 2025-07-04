@@ -215,5 +215,9 @@ class ProductService implements ProductInterface
         return $product->delete();
     }
 
+    public function countActive(): int
+    {
+        return Product::where('in_stock', 1)->count();
+    }
 
 }

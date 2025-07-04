@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\User;
 use App\Models\Company;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -130,5 +131,10 @@ class CompanyService implements CompanyInterface
         $company->delete();
 
         return true;
+    }
+
+    public function countRegistered(): int
+    {
+        return User::where('role_id', 2)->count();
     }
 }
