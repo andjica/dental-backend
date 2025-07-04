@@ -84,7 +84,7 @@ class AuctionService implements AuctionInterface
             return null;
         }
 
-
+        // Ažuriranje osnovnih polja aukcije
         $auction->update([
             'name' => $data['name'],
             'description' => $data['description'] ?? '',
@@ -92,11 +92,15 @@ class AuctionService implements AuctionInterface
             'auction_date' => $data['auction_date'],
         ]);
 
-
         $existingImages = $data['existing_images'] ?? [];
 
+      
+        foreach ($auction->images as $img) 
+        {
+            if ($img->is_primary && !isset($data['image_main'])) {
+                continue;
+            }
 
-        foreach ($auction->images as $img) {
             if (!in_array($img->id, $existingImages)) {
                 Storage::disk('public')->delete($img->image_url);
                 $img->delete();
@@ -104,14 +108,14 @@ class AuctionService implements AuctionInterface
         }
 
         if (isset($data['image_main']) && $data['image_main']->isValid()) {
-            // Obriši staru primarnu
+            // Briši staru glavnu
             $oldMain = $auction->images()->where('is_primary', true)->first();
             if ($oldMain) {
                 Storage::disk('public')->delete($oldMain->image_url);
                 $oldMain->delete();
             }
 
-
+            
             $pathMain = $data['image_main']->store('auctions', 'public');
 
             AuctionImage::create([
@@ -120,7 +124,6 @@ class AuctionService implements AuctionInterface
                 'is_primary' => true,
             ]);
         }
-
 
         if (isset($data['images']) && is_array($data['images'])) {
             foreach ($data['images'] as $file) {
