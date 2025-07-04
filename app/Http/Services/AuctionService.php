@@ -19,16 +19,15 @@ class AuctionService implements AuctionInterface
 
     public function getAllByUserId(int $userId): ?Collection
     {
-         $user = User::find($userId);
+        $user = User::find($userId);
 
-        if(!$user) 
-        {
+        if (!$user) {
             return  null;
         }
 
         $auctions = Auction::where('user_id', $userId)
-        ->orderBy('created_at', 'desc')->get();
-        
+            ->orderBy('created_at', 'desc')->get();
+
         return $auctions;
     }
 
@@ -85,7 +84,7 @@ class AuctionService implements AuctionInterface
             return null;
         }
 
-    
+
         $auction->update([
             'name' => $data['name'],
             'description' => $data['description'] ?? '',
@@ -93,18 +92,17 @@ class AuctionService implements AuctionInterface
             'auction_date' => $data['auction_date'],
         ]);
 
-       
+
         $existingImages = $data['existing_images'] ?? [];
 
-       
+
         foreach ($auction->images as $img) {
-            if (!in_array($img->image_url, $existingImages)) {
+            if (!in_array($img->id, $existingImages)) {
                 Storage::disk('public')->delete($img->image_url);
                 $img->delete();
             }
         }
 
-       
         if (isset($data['image_main']) && $data['image_main']->isValid()) {
             // Obriši staru primarnu
             $oldMain = $auction->images()->where('is_primary', true)->first();
@@ -113,7 +111,7 @@ class AuctionService implements AuctionInterface
                 $oldMain->delete();
             }
 
-          
+
             $pathMain = $data['image_main']->store('auctions', 'public');
 
             AuctionImage::create([
@@ -123,7 +121,7 @@ class AuctionService implements AuctionInterface
             ]);
         }
 
-      
+
         if (isset($data['images']) && is_array($data['images'])) {
             foreach ($data['images'] as $file) {
                 if ($file->isValid()) {
