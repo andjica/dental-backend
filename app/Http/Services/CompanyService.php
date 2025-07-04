@@ -10,6 +10,11 @@ use App\Http\Interfaces\CompanyInterface;
 
 class CompanyService implements CompanyInterface
 {
+    public function get(int $id): ?Company
+    {
+        return Company::find($id);
+    }
+    
     public function getCompanyByUserId($userId)
     {
        return Company::where('user_id', $userId)->first();

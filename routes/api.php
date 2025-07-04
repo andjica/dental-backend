@@ -58,7 +58,9 @@
         Route::get('/categories', [CategoryController::class, 'index']);
         Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
 
+        //its fetching company by user id from auth
         Route::get('/company', [CompanyController::class, 'showCompany']);
+        Route::get('/company/{id}', [CompanyController::class, 'getCompanyById']);
         Route::post('/company/update', [CompanyController::class, 'update']);
 
         Route::get('/user-info', [UserInfoController::class, 'showUserInfo']);

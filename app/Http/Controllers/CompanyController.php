@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -16,11 +18,28 @@ class CompanyController extends Controller
     {
         $this->companyService = $companyService;
     }
+    
+    public function getCompanyById($id)
+    {
+        $company = $this->companyService->get($id);
+
+        if (!$company) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Company not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'company' => $company
+        ], 200);
+    }
 
     public function showCompany()
     {
         $userId = Auth::user()->id;
-        
+
         $company = $this->companyService->getCompanyByUserId($userId);
 
         if (!$company) {
@@ -30,17 +49,16 @@ class CompanyController extends Controller
         return response()->json(['data' => $company], 200);
     }
 
-        public function update(UpdateCompanyRequest $request): JsonResponse
-        {
-            $userId = Auth::user()->id;
+    public function update(UpdateCompanyRequest $request): JsonResponse
+    {
+        $userId = Auth::user()->id;
 
-            $company = $this->companyService->updateCompany($request->validated(), $userId);
+        $company = $this->companyService->updateCompany($request->validated(), $userId);
 
-            if (!$company) {
-                return response()->json(['message' => 'Company not found'], 404);
-            }
-
-            return response()->json(['data' => $company], 200);
+        if (!$company) {
+            return response()->json(['message' => 'Company not found'], 404);
         }
-}
 
+        return response()->json(['data' => $company], 200);
+    }
+}
