@@ -47,4 +47,36 @@ class CategoryController extends Controller
             'data' => $subCategories,
         ], 200);
     }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = $this->categoryService->create($validated);
+        return response()->json(['category' => $category], 201);
+    }
+
+    public function show($id)
+    {
+        $category = $this->categoryService->show($id);
+        return response()->json(['category' => $category]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $category = $this->categoryService->update($id, $validated);
+        return response()->json(['category' => $category]);
+    }
+
+    public function destroy($id)
+    {
+        $this->categoryService->delete($id);
+        return response()->json(['message' => 'Category deleted']);
+    }
 }

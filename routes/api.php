@@ -1,5 +1,4 @@
-use App\Http\Controllers\SubCategoryController;
-    <?php
+<?php
 
     use App\Http\Controllers\AdminController;
     use App\Http\Controllers\AuctionController;
@@ -14,9 +13,8 @@ use App\Http\Controllers\SubCategoryController;
     use App\Http\Controllers\CountryController;
     use App\Http\Controllers\ProductController;
     use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\SubCategoryController;
-use App\Http\Controllers\UserInfoController;
-    use PharIo\Manifest\AuthorCollection;
+    use App\Http\Controllers\SubCategoryController;
+    use App\Http\Controllers\UserInfoController;
 
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login'])->name("login");
@@ -58,9 +56,13 @@ use App\Http\Controllers\UserInfoController;
         Route::get('/me', [AuthController::class, 'me']);
 
         Route::get('/categories', [CategoryController::class, 'index']);
-        Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
+        Route::get('/category/{id}', [CategoryController::class, 'show']);
+        Route::post('/category', [CategoryController::class, 'store']);
+        Route::put('/category/{id}', [CategoryController::class, 'update']);    
+        Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
+        Route::get('/category/{id}/subcategories', [CategoryController::class, 'getSubCategories']);
+           Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
         Route::get('/subcategories', [SubCategoryController::class, 'index']);
-
         //its fetching company by user id from auth
         Route::get('/company', [CompanyController::class, 'showCompany']);
         Route::get('/company/{id}', [CompanyController::class, 'getCompanyById']);
