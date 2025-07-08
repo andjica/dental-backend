@@ -19,4 +19,9 @@ class SubCategoryService implements SubCategoryInterface
 
         return $subCategories;
     }
+
+    public function getAll()
+    {
+        return SubCategory::orderBy('name', 'asc')->get();
+    }
 }

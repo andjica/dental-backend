@@ -1,3 +1,4 @@
+use App\Http\Controllers\SubCategoryController;
     <?php
 
     use App\Http\Controllers\AdminController;
@@ -13,7 +14,8 @@
     use App\Http\Controllers\CountryController;
     use App\Http\Controllers\ProductController;
     use App\Http\Controllers\CategoryController;
-    use App\Http\Controllers\UserInfoController;
+use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\UserInfoController;
     use PharIo\Manifest\AuthorCollection;
 
     Route::post('/register', [AuthController::class, 'register']);
@@ -57,6 +59,7 @@
 
         Route::get('/categories', [CategoryController::class, 'index']);
         Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
+        Route::get('/subcategories', [SubCategoryController::class, 'index']);
 
         //its fetching company by user id from auth
         Route::get('/company', [CompanyController::class, 'showCompany']);
