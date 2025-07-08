@@ -129,4 +129,32 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function getNewProducts()
+    {
+        $products = $this->productService->getNewProducts();
+
+
+        $products->load(['category', 'subCategory', 'primaryImage']);
+        
+          return response()->json([
+            'success' => true,
+            'message' => 'Products retrieved successfully.',
+            'data' => $products
+        ], 200);
+    }
+
+    public function getSecondHandProducts()
+    {
+        $products = $this->productService->getSecondHandProducts();
+
+
+        $products->load(['category', 'subCategory', 'primaryImage']);
+        
+          return response()->json([
+            'success' => true,
+            'message' => 'Products retrieved successfully.',
+            'data' => $products
+        ], 200);
+    }
 }

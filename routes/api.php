@@ -73,7 +73,8 @@
         Route::get('/product/{id}', [ProductController::class, 'show']);
         Route::post('/product/{id}', [ProductController::class, 'update']);
         Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-
+        Route::get('/new/products', [ProductController::class, 'getNewProducts']);
+        Route::get('/second-hand/products', [ProductController::class, 'getSecondHandProducts']);
         //auctions
         Route::post('/auction', [AuctionController::class, 'store']);
         //all auctions 

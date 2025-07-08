@@ -12,5 +12,6 @@ interface ProductInterface
     public function getAll();
     public function delete(int $productId): bool;
     public function countActive(): int;
-
+    public function getNewProducts();
+    public function getSecondHandProducts();
 }

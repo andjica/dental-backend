@@ -114,7 +114,6 @@ class ProductService implements ProductInterface
         'existing_images.*' => 'string',
     ]);
 
-    // ✅ Obrada osnovnih podataka
     $validated['base_price'] = number_format((float) $validated['base_price'], 2, '.', '');
     $validated['in_stock'] = ($request->in_stock == 1) ? 1 : 0;
 
@@ -122,7 +121,6 @@ class ProductService implements ProductInterface
         $validated['sku'] = strtoupper(Str::random(10));
     }
 
-    // ✅ Update glavne slike (ako je poslata nova)
     if ($request->hasFile('image_main')) {
         $oldMain = $product->images()->where('is_primary', true)->first();
         if ($oldMain) {
@@ -139,10 +137,10 @@ class ProductService implements ProductInterface
         ]);
     }
 
-    // ✅ Obrada galerije
+    
     $existingImages = $request->input('existing_images', []);
 
-    // Obriši slike koje nisu u existing_images
+   
     $currentGallery = $product->images()->where('is_primary', false)->get();
 
     foreach ($currentGallery as $img) {
@@ -152,7 +150,7 @@ class ProductService implements ProductInterface
         }
     }
 
-    // Dodaj nove slike
+   
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $file) {
             $path = $file->store('products', 'public');
@@ -165,7 +163,7 @@ class ProductService implements ProductInterface
         }
     }
 
-    // ✅ Update samog proizvoda
+   
     $product->update([
         'name' => $validated['name'],
         'product_type' => $validated['product_type'],
@@ -203,7 +201,6 @@ class ProductService implements ProductInterface
             return false;
         }
 
-        // Obrisi slike sa diska i iz baze
         foreach ($product->images as $image) {
             if (Storage::disk('public')->exists($image->image_url)) {
                 Storage::disk('public')->delete($image->image_url);
@@ -211,13 +208,31 @@ class ProductService implements ProductInterface
             $image->delete();
         }
 
-        // Obrisi proizvod
+       
         return $product->delete();
     }
 
     public function countActive(): int
     {
         return Product::where('in_stock', 1)->count();
+    }
+
+    public function getNewProducts()
+    {
+        $products = Product::where('product_type', 'NEW')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return $products;
+    }
+
+    public function getSecondHandProducts()
+    {
+        $products = Product::where('product_type', 'USED')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return $products;
     }
 
 }
