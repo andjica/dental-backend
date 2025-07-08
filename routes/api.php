@@ -61,8 +61,13 @@
         Route::put('/category/{id}', [CategoryController::class, 'update']);    
         Route::delete('/category/{id}', [CategoryController::class, 'destroy']);
         Route::get('/category/{id}/subcategories', [CategoryController::class, 'getSubCategories']);
-           Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
+        Route::get('/sub-categories/{categoryId}', [CategoryController::class, 'getSubCategories']);
+
         Route::get('/subcategories', [SubCategoryController::class, 'index']);
+        Route::post('/subcategories', [SubCategoryController::class, 'store']);
+        Route::get('/subcategories/{id}', [SubCategoryController::class, 'show']);
+        Route::put('/subcategories/{id}', [SubCategoryController::class, 'update']);
+        Route::delete('/subcategories/{id}', [SubCategoryController::class, 'destroy']);
         //its fetching company by user id from auth
         Route::get('/company', [CompanyController::class, 'showCompany']);
         Route::get('/company/{id}', [CompanyController::class, 'getCompanyById']);

@@ -18,7 +18,7 @@ class SubCategoryController extends Controller
     {
         $subcategories = $this->subCategoryService->getAll();
         $subcategories->load(['category']);
-        
+
         return response()->json(['subcategories' => $subcategories]);
     }
 
@@ -27,7 +27,7 @@ class SubCategoryController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,38 +35,36 @@ class SubCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        $created = $this->subCategoryService->create($validated);
+
+        return response()->json($created, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        return response()->json($this->subCategoryService->getById($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'category_id' => 'sometimes|exists:categories,id',
+        ]);
+
+        $updated = $this->subCategoryService->update($id, $validated);
+
+        return response()->json($updated);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $this->subCategoryService->delete($id);
+        return response()->json(['message' => 'Subcategory deleted successfully']);
     }
 }
