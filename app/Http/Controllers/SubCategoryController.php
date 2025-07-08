@@ -17,6 +17,8 @@ class SubCategoryController extends Controller
     public function index()
     {
         $subcategories = $this->subCategoryService->getAll();
+        $subcategories->load(['category']);
+        
         return response()->json(['subcategories' => $subcategories]);
     }
 
