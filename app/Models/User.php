@@ -22,9 +22,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'first_name',
         'last_name',
         'email',
+        'email_verified_at',
         'password',
         'role_id',
-        'email_verification_token'
+        'email_verification_token',
+        'device_type',
+        'is_verified',
+        'provider','provider_id','provider_email','provider_avatar','last_login_provider',
     ];
 
     /**
@@ -47,6 +51,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_verified' => 'boolean',
         ];
     }
 
@@ -102,4 +107,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return $this->hasMany(Auction::class);
     }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
+
+    public function paymentMethods()
+    {
+        return $this->hasMany(PaymentMethod::class);
+    }
+
 }

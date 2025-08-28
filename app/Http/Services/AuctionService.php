@@ -7,6 +7,7 @@ use App\Models\Auction;
 use App\Models\AuctionImage;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Interfaces\AuctionInterface;
+use App\Http\Requests\AuctionStoreRequest;
 use Illuminate\Database\Eloquent\Collection;
 
 class AuctionService implements AuctionInterface
@@ -31,29 +32,30 @@ class AuctionService implements AuctionInterface
         return $auctions;
     }
 
+
+
     public function create(array $data): Auction
     {
-
         $auction = Auction::create([
-            'user_id' => $data['user_id'],
-            'name' => $data['name'],
-            'description' => $data['description'] ?? '',
-            'base_price' => number_format((float) $data['base_price'], 2, '.', ''),
+            'user_id'      => $data['user_id'],
+            'name'         => $data['name'],
+            'description'  => $data['description'] ?? '',
+            'base_price'   => number_format((float) $data['base_price'], 2, '.', ''),
             'auction_date' => $data['auction_date'],
         ]);
 
-
+        // glavna slika
         if (isset($data['image_main']) && $data['image_main']->isValid()) {
             $pathMain = $data['image_main']->store('auctions', 'public');
 
             AuctionImage::create([
                 'auction_id' => $auction->id,
-                'image_url' => $pathMain,
+                'image_url'  => $pathMain,
                 'is_primary' => true,
             ]);
         }
 
-
+        // dodatne slike
         if (isset($data['images']) && is_array($data['images'])) {
             foreach ($data['images'] as $img) {
                 if ($img->isValid()) {
@@ -61,7 +63,7 @@ class AuctionService implements AuctionInterface
 
                     AuctionImage::create([
                         'auction_id' => $auction->id,
-                        'image_url' => $path,
+                        'image_url'  => $path,
                         'is_primary' => false,
                     ]);
                 }
@@ -70,6 +72,9 @@ class AuctionService implements AuctionInterface
 
         return $auction->load('images');
     }
+
+
+
 
     public function view(int $id): ?Auction
     {

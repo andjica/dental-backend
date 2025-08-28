@@ -25,12 +25,12 @@ return new class extends Migration
             // $table->unsignedInteger('city_id')->nullable();
 
             // Role
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('role_id')->nullable();
 
             // Verification
             $table->timestamp('email_verified_at')->nullable();
 
-            // Laravel default
+            // Laravel defaultU
             $table->rememberToken();
             $table->timestamps();
         });

@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AuctionStoreRequest extends FormRequest
+class StoreAuctionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,13 +22,7 @@ class AuctionStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'base_price' => 'required|numeric|min:0',
-            'auction_date' => 'required|date',
-            'image_main' => 'nullable|image|max:5048',
-            'images' => 'nullable|array',
-            'images.*' => 'image|max:5048',
+            //
         ];
     }
 }

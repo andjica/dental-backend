@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\GoogleApiController;
+
     use App\Http\Controllers\AdminController;
     use App\Http\Controllers\AuctionController;
     use App\Models\User;
@@ -53,6 +57,7 @@
 
 
     Route::middleware(['auth:api', 'verified'])->group(function () {
+
         Route::get('/me', [AuthController::class, 'me']);
 
         Route::get('/categories', [CategoryController::class, 'index']);
@@ -108,12 +113,37 @@
         Route::get('/admin/registered-companies', [AdminController::class, 'getRegisteredCompanies']);
         Route::get('/admin/total-buyers', [AdminController::class, 'getTotalBuyers']);
 
+        Route::post('/payment/setup', [PaymentController::class, 'createSetup']);
+        Route::post('/payment/charge', [PaymentController::class, 'testCharge']);
+
     });
+
+    Route::middleware(['auth:api'])->group(function () {
+        Route::post('/send-code', [AuthController::class, 'sendVerificationCode']);
+        Route::post('/verify-mobile-code', [AuthController::class, 'verifyMobileCode']); 
+        Route::put('/user/update-role', [UserController::class, 'updateRole']);
+
+        Route::post('/user/update-email', [AuthController::class, 'updateEmail']);
+        Route::post('/user/change-password', [AuthController::class, 'changePassword']);
+
+    });
+    Route::get('/verify-new-email/{token}', [AuthController::class, 'verifyNewEmail']) ->middleware('throttle:6,1')->name('verify.new.email');
+
+
+    Route::post('/password/forgot', [AuthController::class, 'forgotPassword']);
+
 
     Route::get('/cities/{countryId}', [CityController::class, 'getCitiesByCountry']);
 
     Route::get('/countries', [CountryController::class, 'getCountries']);
     Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPhoneCode']);
     
+
+    Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('mollie.webhook');
+
+    Route::post('/auth/google', [GoogleApiController::class, 'login']);
+    Route::get('/auth/google/redirect', [GoogleApiController::class, 'redirectToGoogle']);
+    Route::get('/auth/google/callback', [GoogleApiController::class, 'handleGoogleCallback']);
+
     // Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
 

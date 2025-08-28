@@ -21,6 +21,9 @@ use App\Http\Services\SubCategoryService;
 use App\Http\Interfaces\CategoryInterface;
 use App\Http\Interfaces\UserInfoInterface;
 use App\Http\Interfaces\SubCategoryInterface;
+use App\Http\Interfaces\PaymentServiceInterface;
+use App\Http\Services\PaymentService;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,6 +49,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SubCategoryInterface::class, SubCategoryService::class);
         $this->app->bind(AuctionInterface::class, AuctionService::class);
         $this->app->bind(BuyerInterface::class, BuyerService::class);
+        $this->app->bind(PaymentServiceInterface::class, PaymentService::class);
+
 
     }
 }

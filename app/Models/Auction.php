@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Bid;
 use Illuminate\Database\Eloquent\Model;
 
 class Auction extends Model
@@ -23,5 +24,10 @@ class Auction extends Model
     public function images()
     {
         return $this->hasMany(AuctionImage::class);
+    }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
     }
 }
