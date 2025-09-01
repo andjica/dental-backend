@@ -1,9 +1,9 @@
 <?php
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Category;
-use App\Models\Subcategory;
+use App\Models\SubCategory;
+use Illuminate\Database\Seeder;
 
 class CategoriesAndSubcategoriesSeeder extends Seeder
 {
@@ -33,7 +33,7 @@ class CategoriesAndSubcategoriesSeeder extends Seeder
             $category = Category::create(['name' => $categoryName]);
 
             foreach ($subcategories as $sub) {
-                Subcategory::create([
+                SubCategory::create([
                     'category_id' => $category->id,
                     'name' => $sub,
                 ]);

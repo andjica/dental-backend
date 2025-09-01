@@ -8,7 +8,9 @@ class CountryService implements CountryInterface
 {
     public function getCountries()
     {
-        $countries = Country::orderBy('name', 'asc')->get();
+        $countries = Country::where('currency', 'EUR')
+    ->orderBy('name', 'asc')
+    ->get();
         return $countries;
     }
 
