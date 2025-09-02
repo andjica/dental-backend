@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Services\PaymentService;
 use App\Http\Interfaces\AuctionInterface;
 use App\Http\Requests\AuctionStoreRequest;
 use App\Http\Requests\AuctionUpdateRequest;
@@ -77,14 +79,14 @@ class AuctionController extends Controller
     public function show($id)
     {
         $auction = $this->auctionService->view($id);
-        $auction->load(['user', 'images']);
+        
         if (!$auction) {
             return response()->json([
                 'success' => false,
                 'message' => 'Auction not found.',
             ], 404);
         }
-
+        $auction->load(['user', 'images', 'bids.user']);
         return response()->json([
             'success' => true,
             'message' => 'Auction fetched successfully.',
@@ -143,5 +145,50 @@ class AuctionController extends Controller
             'success' => true,
             'message' => 'Auction deleted successfully.',
         ], 200);
+    }
+
+     public function placeBid(Request $request, $auctionId)
+    {
+        $user = Auth::user();
+
+        // 1. provera kartice
+        if (!$user->defaultPaymentMethod) {
+            // umesto user-a, prosleđujemo Request sa context i entity_id
+            $setupRequest = new Request([
+                'context' => 'auction',
+                'entity_id' => $auctionId,
+            ]);
+
+            $checkoutResponse = app(PaymentService::class)->createSetup($setupRequest);
+
+            $checkoutUrl = json_decode($checkoutResponse->getContent(), true)['checkout_url'];
+
+            return response()->json([
+                'success' => false,
+                'requires_payment_setup' => true,
+                'redirect_url' => $checkoutUrl,
+                'message' => 'Please setup a payment method before bidding.'
+            ], 402);
+        }
+
+        // 2. validacija iznosa
+        $amount = $request->input('amount');
+        if (!$amount || $amount <= 0) {
+            return response()->json(['success' => false, 'message' => 'Invalid bid amount'], 422);
+        }
+
+        // 3. upis bida
+        $bid = Bid::create([
+            'auction_id' => $auctionId,
+            'user_id'    => $user->id,
+            'amount'     => $amount,
+            'placed_at'  => now(),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Bid placed successfully.',
+            'data'    => $bid,
+        ]);
     }
 }

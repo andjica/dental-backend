@@ -1,8 +1,11 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Bid;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Services\PaymentService;
 use App\Http\Interfaces\PaymentServiceInterface;
 
 class PaymentController extends Controller
@@ -14,16 +17,25 @@ class PaymentController extends Controller
         $this->paymentService = $paymentService;
     }
 
-    public function createSetup()
+   public function createSetup(Request $request)
     {
-        $url = $this->paymentService->createSetupPayment(Auth::user()
-);
-
-        return response()->json(['checkout_url' => $url]);
+        return $this->paymentService->createSetup($request);
     }
+
+    public function check()
+    {
+        $user = Auth::user();
+        $hasCard = $user->paymentMethods->where('is_default', true)->exists();
+
+        return response()->json([
+            'hasCard' => $hasCard
+        ]);
+    }
+
 
     public function webhook(Request $request)
     {
+        Log::info('Webhook hit', $request->all());
         $this->paymentService->handleWebhook($request->all());
 
         return response()->json(['status' => 'ok']);
@@ -35,4 +47,7 @@ class PaymentController extends Controller
 
         return response()->json(['status' => 'charged']);
     }
+
+   
+
 }

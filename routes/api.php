@@ -99,6 +99,8 @@ use App\Http\Controllers\GoogleApiController;
         Route::get('/auction/{id}', [AuctionController::class, 'show']);
         Route::post('/auction/update/{id}', [AuctionController::class, 'update']);
         Route::delete('/auctions/{id}', [AuctionController::class, 'destroy']);
+        Route::post('/place-bid/{auctionId}', [AuctionController::class, 'placeBid']);
+
 
         Route::get('/admin/users', [AdminController::class, 'getUsersInfo']);
         Route::get('/admin/companies', [AdminController::class, 'getCompanies']);
@@ -113,8 +115,8 @@ use App\Http\Controllers\GoogleApiController;
         Route::get('/admin/registered-companies', [AdminController::class, 'getRegisteredCompanies']);
         Route::get('/admin/total-buyers', [AdminController::class, 'getTotalBuyers']);
 
-        Route::post('/payment/setup', [PaymentController::class, 'createSetup']);
-        Route::post('/payment/charge', [PaymentController::class, 'testCharge']);
+        //Route::post('/payment/setup', [PaymentController::class, 'createSetup']);
+        //Route::post('/payment/charge', [PaymentController::class, 'testCharge']);
 
     });
 
@@ -125,6 +127,11 @@ use App\Http\Controllers\GoogleApiController;
 
         Route::post('/user/update-email', [AuthController::class, 'updateEmail']);
         Route::post('/user/change-password', [AuthController::class, 'changePassword']);
+
+      
+
+        Route::get('/user/payment-method', [PaymentController::class, 'check']);
+        Route::post('/payment/create-setup', [PaymentController::class, 'createSetup']);
 
     });
     Route::get('/verify-new-email/{token}', [AuthController::class, 'verifyNewEmail']) ->middleware('throttle:6,1')->name('verify.new.email');
@@ -139,11 +146,12 @@ use App\Http\Controllers\GoogleApiController;
     Route::get('/country/{countryId}/phone-code', [CountryController::class, 'getPhoneCode']);
     
 
-    Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('mollie.webhook');
 
     Route::post('/auth/google', [GoogleApiController::class, 'login']);
     Route::get('/auth/google/redirect', [GoogleApiController::class, 'redirectToGoogle']);
     Route::get('/auth/google/callback', [GoogleApiController::class, 'handleGoogleCallback']);
+
+    Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('mollie.webhook');
 
     // Route::get('/country/{countryId}/currency', [CountryController::class, 'getCurrency']);
 
