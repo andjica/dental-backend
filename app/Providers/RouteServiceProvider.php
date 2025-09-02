@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+     public const HOME = 'http://164.92.209.125:5173/email-verified';
+     
     public function boot(): void
     {
+        
         // API routes
         Route::middleware('api')
             ->prefix('api')
