@@ -24,6 +24,10 @@ class Company extends Model
         'active'
     ];
 
+    protected $casts = [
+        'is_finished_profile' => 'boolean',
+    ];
+
     
     public function user()
     {

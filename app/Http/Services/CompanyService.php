@@ -91,13 +91,14 @@ class CompanyService implements CompanyInterface
 
     public function getAllInactiveCompanies()
     {
-        $userAdmin  = User::where('email', 'admin@example.com')->first();
+        $userAdmin = User::where('email', 'admin@example.com')->first();
 
-        $companies = Company::where('active', 0)
-        ->whereNot('user_id', $userAdmin->id)
-        ->orderBy('created_at', 'desc')->get();
-
-        return $companies;
+        return Company::where('active', 0)
+            ->where('is_finished_profile', 1) // koristimo 1 jer je tinyint
+            ->whereNot('user_id', $userAdmin->id)
+            ->with(['country', 'city'])
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     public function activateCompany(int $companyId)

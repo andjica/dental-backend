@@ -52,10 +52,10 @@ class AdminController extends Controller
     {
         Auth::user()->id;
         $companies = $this->companyService->getAllInactiveCompanies();
-        $companies = $companies->load(['country', 'city']);
+
         
         return response()->json([
-            'success' => 'Inactive Companies retrieved',
+            'success' => 'Inactive Companies retrieved andjicas',
             'data' => $companies
         ], 200);
     }
