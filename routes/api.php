@@ -73,10 +73,7 @@ use App\Http\Controllers\GoogleApiController;
         Route::get('/subcategories/{id}', [SubCategoryController::class, 'show']);
         Route::put('/subcategories/{id}', [SubCategoryController::class, 'update']);
         Route::delete('/subcategories/{id}', [SubCategoryController::class, 'destroy']);
-        //its fetching company by user id from auth
-        Route::get('/company', [CompanyController::class, 'showCompany']);
-        Route::get('/company/{id}', [CompanyController::class, 'getCompanyById']);
-        Route::post('/company/update', [CompanyController::class, 'update']);
+       
 
         Route::get('/user-info', [UserInfoController::class, 'showUserInfo']);
         Route::post('/user-info', [UserInfoController::class, 'update']);
@@ -121,6 +118,11 @@ use App\Http\Controllers\GoogleApiController;
     });
 
     Route::middleware(['auth:api'])->group(function () {
+         //its fetching company by user id from auth
+        Route::get('/company', [CompanyController::class, 'showCompany']);
+        Route::get('/company/{id}', [CompanyController::class, 'getCompanyById']);
+        Route::post('/company/update', [CompanyController::class, 'update']);
+        
         Route::post('/send-code', [AuthController::class, 'sendVerificationCode']);
         Route::post('/verify-mobile-code', [AuthController::class, 'verifyMobileCode']); 
         Route::put('/user/update-role', [UserController::class, 'updateRole']);
