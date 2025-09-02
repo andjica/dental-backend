@@ -35,7 +35,7 @@ class AuthServiceProvider extends ServiceProvider
             $verificationUrl = $frontendUrl . '/verify-email?' . http_build_query($query);
 
             return (new MailMessage)
-                ->subject('Verify Email Address')
+                ->subject('Verify Email Address - andjela')
                 ->line('Please click the button below to verify your email address.')
                 ->action('Verify Email Address', $verificationUrl);
         });
