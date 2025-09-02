@@ -145,6 +145,6 @@ class CompanyService implements CompanyInterface
 
     public function countRegistered(): int
     {
-        return User::where('role_id', 2)->count();
+        return Company::where('active', 1)->count();
     }
 }
