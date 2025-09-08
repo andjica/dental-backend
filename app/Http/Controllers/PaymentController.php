@@ -35,10 +35,17 @@ class PaymentController extends Controller
 
     public function webhook(Request $request)
     {
-        Log::info('Webhook hit', $request->all());
-        $this->paymentService->handleWebhook($request->all());
+        // Mollie šalje form-urlencoded: id=tr_xxx
+        $paymentId = $request->input('id');
+        Log::info('Mollie webhook hit', ['body' => $request->all(), 'raw' => $request->getContent()]);
 
-        return response()->json(['status' => 'ok']);
+        if (!$paymentId) {
+            Log::warning('Webhook: missing id');
+            return response('OK', 200); // 200 da Mollie ne spama retry
+        }
+        $this->paymentService->handleWebhook($paymentId);
+    
+        return response('OK', 200);
     }
 
     public function testCharge()
