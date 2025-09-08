@@ -38,7 +38,7 @@ class PaymentService implements PaymentServiceInterface
 
         $context  = $request->input('context', 'webshop'); // npr: auction | webshop
         $entityId = $request->input('entity_id');          // opcionalno: auctionId | orderId
-        $redirectUrl = rtrim(env('FRONTEND_URL'), '/')
+        $redirectUrl = rtrim(env('FRONTEND_ALT_URL'), '/')
         . "/#/aukcija/{$entityId}/success";
 
         $payment = Mollie::api()->payments->create([
